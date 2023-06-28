@@ -15,7 +15,7 @@ spec:
       containers:
       - image: docker.io/{docker_user}/{model_name}:{github.sha}
         name: {model_name}-container
-
+##
 apiVersion: v1
 kind: Service
 metadata:
