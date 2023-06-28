@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {model_name}-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {model_name}-server
+  template:
+    metadata:
+      labels:
+        app: {model_name}-server
+    spec:
+      containers:
+      - image: docker.io/{docker_user}/{model_name}:{github.sha}
+        name: {model_name}-container
+
+apiVersion: v1
+kind: Service
+metadata:
+  name:  {model_name}-service
+  annotations:
+    dev.okteto.com/auto-ingress: "true"
+spec:
+  type: ClusterIP  
+  ports:
+  - name:  {model_name}-service
+    port: 5000
+  selector:
+    app:  {model_name}-server
